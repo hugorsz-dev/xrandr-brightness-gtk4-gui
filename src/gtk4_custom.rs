@@ -1,7 +1,9 @@
-use gtk::{prelude::*, Label};
+use gtk::{prelude::*};
 use crate::xrandr_binds;
 use std::rc::Rc;
 use std::cell::RefCell;
+
+// Warning window. This will display a button which, if pressed, will terminate the process.
 
 pub fn create_warning_window (title: &str,message: &str)-> gtk::Dialog {
     let output_warning = gtk::Dialog::new();
@@ -36,6 +38,7 @@ pub fn create_warning_window (title: &str,message: &str)-> gtk::Dialog {
     output_warning
 }
 
+// Brightness scale, which allows you to create and manipulate its elements - in particular, the scale value
 pub struct BrightnessScale {
     pub container: gtk::Box,
     pub scale: gtk::Scale,
@@ -88,6 +91,7 @@ impl BrightnessScale {
         self.adjustment.set_value(value);
     }
 }
+
 
 pub fn create_all_brightness_scale(brightness_scales: Vec<BrightnessScale>)-> gtk::Box {
     let brightness_scales = Rc::new(RefCell::new(brightness_scales));
@@ -163,9 +167,26 @@ impl GammaScale {
         adjustment.connect_value_changed(move |adj| {
             scale_value_label_clone.set_text(&adj.value().round().to_string());
             let value = adj.value().round() / 100.0;
-            // xrandr_binds::set_brightness(&screen_name_owned, &value.to_string());                                                                                           //  1.0 - (S * 0.4 / 100)
-            xrandr_binds::set_gamma(&screen_name_owned, &xrandr_binds::get_brightness(&screen_name_owned).to_string(), &value.to_string(), &(1.0 - (value*0.4)).to_string(), &(1.0 - (value*0.8)).to_string());
-         });
+            let brightness = xrandr_binds::get_brightness(&screen_name_owned);
+
+            let r_value = brightness;
+            let g_value = 1.0 - (value * 0.4);
+            let b_value = 1.0 - (value * 0.8);
+
+            let mut r_value_string = r_value.to_string();  if r_value_string == "inf" {r_value_string = "1.0".to_owned()} 
+            let g_value_string = g_value.to_string();
+            let b_value_string = b_value.to_string();
+
+            // Aplicar el gamma con las variables separadas
+            xrandr_binds::set_gamma(
+                &screen_name_owned,
+                &r_value_string,
+                &r_value_string,
+                &g_value_string,
+                &b_value_string
+            );
+        
+        });
 
         // Appends.
         output_box.append(&scale_name_label);

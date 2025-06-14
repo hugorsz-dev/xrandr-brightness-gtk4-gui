@@ -1,9 +1,6 @@
 use std::process::Command;
 
-/*
-    Detecta si la sesión del compositor de ventanas es X.ORG. 
-        - La herramienta xrandr solo funciona con el compositor X.ORG. 
-*/
+
 pub fn is_xorg_session () -> bool {
     match std::env::var("XDG_SESSION_TYPE") {
         Ok(session_type) => {
@@ -70,6 +67,8 @@ pub fn set_gamma (monitor: &str, brightness: &str, r: &str,  g: &str, b: &str) {
 
 }
 
+// xrandr --verbose > brightness
+
 pub fn get_brightness (monitor: &str) -> f64 {
     let _command = Command::new("xrandr")
         .arg("--verbose")
@@ -100,6 +99,8 @@ pub fn get_brightness (monitor: &str) -> f64 {
     output
     
 }
+
+// xrandr --verbose > gamma
 
 pub fn get_gamma (monitor: &str) -> (f64, f64, f64){
     let _command = Command::new("xrandr")
