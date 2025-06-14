@@ -3,6 +3,17 @@ use crate::xrandr_binds;
 use std::rc::Rc;
 use std::cell::RefCell;
 
+use std::collections::HashMap;
+use std::sync::{LazyLock, Mutex};
+
+/* 
+This program was originally designed to query xrandr.
+Due to connection failures related to the 'xrandr --verbose > gamma' command with some drivers, this global variable has been introduced.
+*/
+
+static GLOBAL_GAMMA_VALUES: LazyLock<Mutex<HashMap<String, String>>> = 
+    LazyLock::new(|| Mutex::new(HashMap::new()));
+
 // Warning window. This will display a button which, if pressed, will terminate the process.
 
 pub fn create_warning_window (title: &str,message: &str)-> gtk::Dialog {
@@ -67,9 +78,20 @@ impl BrightnessScale {
         let screen_name_owned = screen_name.to_string();
         let scale_value_label_clone = scale_value_label.clone();
         adjustment.connect_value_changed(move |adj| {
+            let global_gamma_values = GLOBAL_GAMMA_VALUES.lock().unwrap();
+
             scale_value_label_clone.set_text(&adj.value().round().to_string());
-            let value = adj.value().round() / 100.0;
-            xrandr_binds::set_brightness(&screen_name_owned, &value.to_string());
+            let brightness = adj.value().round() / 100.0;
+
+            if let Some(value) = global_gamma_values.get(&screen_name_owned) {
+                let g_value = value.split("::").nth(1).unwrap();
+                let b_value = value.split("::").nth(2).unwrap();
+                xrandr_binds::set_gamma(&screen_name_owned, &brightness.to_string(), &brightness.to_string(), g_value, b_value);
+            }
+            else {
+                xrandr_binds::set_brightness(&screen_name_owned, &brightness.to_string());
+            }
+             
         });
 
         // Appends.
@@ -185,7 +207,13 @@ impl GammaScale {
                 &g_value_string,
                 &b_value_string
             );
-        
+
+            let mut global_gamma_values = GLOBAL_GAMMA_VALUES.lock().unwrap();
+            global_gamma_values.insert(
+                screen_name_owned.clone(), // <- Usar el owned string
+                format!("{}::{}::{}", r_value_string, g_value_string, b_value_string)
+            );
+            
         });
 
         // Appends.
@@ -278,6 +306,7 @@ pub fn create_brightness_page() -> gtk::Box {
 }
 
 pub fn create_gamma_page() -> gtk::Box {
+   
     let output_box = gtk::Box::new(gtk::Orientation::Vertical, 10);
         output_box.set_margin_top(20);
         output_box.set_margin_bottom(20);
