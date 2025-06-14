@@ -3,7 +3,7 @@ use gtk::{glib, Application, ApplicationWindow};
 mod xrandr_binds;
 mod gtk4_custom;
 
-const APP_ID: &str = "org.gtk_rs.xrandr-brightness";
+const APP_ID: &str = "org.gtk_rs.xbgg";
 fn main() -> glib::ExitCode {
     // Create a new applicationz
     let app = Application::builder().application_id(APP_ID).build();
@@ -26,7 +26,7 @@ fn build_ui(app: &Application) {
     // Resolution of the window
     let window = ApplicationWindow::builder()
         .application(app)
-        .title("xrandr brightness controller")
+        .title("XBGG: xrandr Brightness GUI for GTK4")
         .default_width(600)
         .default_height(300)
         .build();

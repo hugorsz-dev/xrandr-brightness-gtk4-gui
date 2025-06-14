@@ -704,7 +704,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "xrandr-brightness"
+name = "xbgg"
 version = "0.1.0"
 dependencies = [
  "gtk4",
