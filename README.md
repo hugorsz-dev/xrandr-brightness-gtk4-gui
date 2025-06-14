@@ -1,10 +1,9 @@
 # xrandr-brightness-gtk4-gui
+<div align="center" style="margin-bottom: 0;">  
+  <img src="https://github.com/user-attachments/assets/373ab630-763b-4ddf-b479-5644cdc0b253" />
+</div>
 
 A simple and modern GUI application for adjusting display brightness and gamma on Linux systems using xrandr and the Xorg graphics stack.
-
-![imagen-removebg-preview](https://github.com/user-attachments/assets/373ab630-763b-4ddf-b479-5644cdc0b253)
-
-
 ## Features
 
 - **Intuitive interface**: Clean and easy-to-use GUI built with GTK4
