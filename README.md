@@ -2,7 +2,7 @@
 
 A simple and modern GUI application for adjusting display brightness and gamma on Linux systems using xrandr and the Xorg graphics stack.
 
-![Screenshot](screenshot.png)
+![imagen](https://github.com/user-attachments/assets/13cdec52-1370-48eb-aace-e70ffc26babf)
 
 ## Features
 
