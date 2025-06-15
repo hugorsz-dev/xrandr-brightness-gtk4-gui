@@ -1,6 +1,3 @@
-<div align="center" style="margin-bottom: 0;">  
-  <img src="https://github.com/user-attachments/assets/c32701f3-fe53-48d4-8113-8a732329d39b" />
-</div>
 # XBGG: Xrandr Brightness GUI for GTK4
 <div align="center" style="margin-bottom: 0;">  
   <img src="https://github.com/user-attachments/assets/373ab630-763b-4ddf-b479-5644cdc0b253" />
