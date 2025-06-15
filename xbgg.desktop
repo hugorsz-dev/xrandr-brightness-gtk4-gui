@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=XBGG
+Comment=XBGG
+Exec=/usr/bin/xbgg
+Icon=/usr/share/pixmaps/xbgg.png
+Terminal=false
+Type=Application
+Categories=Utility;GTK;
+StartupNotify=true
+StartupWMClass=xbgg

@@ -1,7 +1,39 @@
 [package]
 name = "xbgg"
-version = "0.1.0"
-edition = "2024"
+version = "1.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["hugorsz-dev <hugoruizschz@gmail.com>"]
+description = "XBGG: Xrandr Brightness GUI for GTK4"
+readme = "a"
 
 [dependencies]
 gtk = { version = "0.9.6", package = "gtk4", features = ["v4_8"] }
+
+[package.metadata.deb]
+maintainer = "hugorsz-dev <hugoruizschz@gmail.com>"
+copyright = "2025, hugorsz-dev <hugoruizschz@gmail.com>"
+license-file = ["LICENSE", "4"]
+extended-description = "A simple and modern GUI application for adjusting display brightness and gamma on Linux systems using xrandr and the Xorg graphics stack."
+depends = "$auto, libgtk-4-1"
+section = "utils"
+priority = "optional"
+assets = [
+    ["target/release/xbgg", "usr/bin/", "755"],
+    ["xbgg.desktop", "usr/share/applications/", "644"],
+    ["icon.png", "usr/share/pixmaps/xbgg.png", "644"],
+]
+
+[package.metadata.generate-rpm]
+maintainer = "hugorsz-dev <hugoruizschz@gmail.com>"
+copyright = "2025, hugorsz-dev <hugoruizschz@gmail.com>"
+license-file = ["LICENSE", "4"]
+extended-description = "A simple and modern GUI application for adjusting display brightness and gamma on Linux systems using xrandr and the Xorg graphics stack."
+depends = "$auto, libgtk-4-1"
+section = "utils"
+priority = "optional"
+assets = [
+ { source = "target/release/xbgg", dest = "/usr/bin/xbgg", mode = "755" },
+ { source = "xbgg.desktop", dest = "/usr/share/applications/xbgg.desktop", mode = "644" },
+ { source = "icon.png", dest = "/usr/share/pixmaps/xbgg.png", mode = "644" },
+]
